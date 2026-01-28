@@ -1,0 +1,36 @@
+<!-- app/views/books/show.html.erb -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render "users/userinfo", user: @book_detail.user %>
+      <%= render "books/newbook", book: @book %>
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+
+      <table class="table">
+        <tr>
+          <td>
+            <%= image_tag "no_image.jpg", size: "100x100" %><br>
+            <%= link_to @book_detail.user.name, user_path(@book_detail.user) %>
+          </td>
+          <td><%= link_to @book_detail.title, book_path(@book_detail) %></td>
+          <td><%= @book_detail.body %></td>
+          <td>
+            <% if @book_detail.user == current_user %>
+              <%= link_to "Edit", edit_book_path(@book_detail), class: "btn btn-success btn-sm" %>
+            <% end %>
+          </td>
+          <td>
+            <% if @book_detail.user == current_user %>
+              <%= link_to "Destroy", book_path(@book_detail),
+                          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                          class: "btn btn-danger btn-sm" %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<!-- app/views/books/_newbook.html.erb -->
+<h2>New book</h2>
+
+<%= form_with model: book, url: books_path do |f| %>
+  <div class="form-group">
+    <%= f.label :title, "Title" %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group mt-2">
+    <%= f.label :body, "Opinion" %>
+    <%= f.text_area :body, class: "form-control" %>
+  </div>
+
+  <div class="mt-2">
+    <%= f.submit "Create Book", class: "btn btn-success" %>
+  </div>
+<% end %>

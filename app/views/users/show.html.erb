@@ -1,0 +1,73 @@
+<!-- app/views/users/show.html.erb -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h2>User info</h2>
+
+      <%= image_tag "no_image.jpg", size: "100x100" %>
+
+      <table class="table mt-2">
+        <tr>
+          <th>name</th>
+          <td><%= @user.name %></td>
+        </tr>
+        <tr>
+          <th>introduction</th>
+          <td><%= @user.introduction %></td>
+        </tr>
+      </table>
+
+      <div class="mb-3">
+        <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary w-100" do %>
+          <i class="fa-solid fa-user-gear"></i>
+        <% end %>
+      </div>
+
+      <h2 class="mt-3">New book</h2>
+
+      <% if @book.errors.any? %>
+        <div class="alert alert-danger">
+          <ul>
+            <% @book.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @book, local: true do |f| %>
+        <div class="mb-2">
+          <%= f.label :title %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+
+        <div class="mb-2">
+          <%= f.label :body %>
+          <%= f.text_area :body, class: "form-control" %>
+        </div>
+
+        <%= f.submit "Create Book", class: "btn btn-success" %>
+      <% end %>
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+      <h2>Books</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Opinion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+            <tr>
+              <td><%= link_to book.title, book_path(book) %></td>
+              <td><%= book.body %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<!-- app/views/users/_userinfo.html.erb の画像部分だけ差し替え -->
+<% if user.profile_image.attached? %>
+  <%= image_tag user.profile_image, size: "100x100" %>
+<% else %>
+  <%= image_tag "no_image.jpg", size: "100x100" %>
+<% end %>

@@ -6,7 +6,9 @@ class BooksController < ApplicationController
   def index
     @book  = Book.new
     @books = Book.all
+    @user  = current_user   # ←追記（これが無いと @user が nil）
   end
+
 
   def create
     @book = current_user.books.new(book_params)

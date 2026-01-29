@@ -1,14 +1,16 @@
+# spec/controllers/users_controller_spec.rb
 require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe "Users", type: :request do
+  include_context "authentication helpers"
+
   let!(:user) { create(:user) }
 
-  describe 'GET #edit' do
-    render_views
+  describe 'GET /users/:id/edit' do
     context 'ログインユーザーの場合' do
       before do
         sign_in_as(user)
-        get :edit, params: { id: user.id }
+        get edit_user_path(user)
       end
 
       it 'レスポンスが成功すること', spec_category: "deviseの基本的な導入・認証設定" do

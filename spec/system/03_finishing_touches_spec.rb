@@ -32,9 +32,8 @@ RSpec.describe '[STEP3] 仕上げのテスト', type: :system do
       fill_in 'name', with: user.name
       fill_in 'password', with: user.password
       click_button 'Log in'
-      logout_link = find_all('a')[4].text
-      logout_link = logout_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
-      click_link logout_link
+      # Log out は button_to なので link ではなく button を押す
+      click_button 'Log out'
       is_expected.to have_content 'successfully'
     end
 

@@ -1,7 +1,62 @@
-<div class="container mt-4">
+<!-- app/views/books/index.html.erb -->
+<div class="container">
   <div class="row">
-    <%= render 'list' %>
+    <!-- 左：User info + New book -->
+    <div class="col-md-3">
+      <h2>User info</h2>
 
+      <!-- 画像：ユーザ詳細へ -->
+      <%= link_to user_path(@user) do %>
+        <%= image_tag "no_image.jpg", size: "100x100" %>
+      <% end %>
+
+      <table class="table mt-2">
+        <tr>
+          <th>name</th>
+          <td><%= @user.name %></td>
+        </tr>
+        <tr>
+          <th>introduction</th>
+          <td><%= @user.introduction %></td>
+        </tr>
+      </table>
+
+      <!-- ユーザ編集ボタン（空文字リンクにしない） -->
+      <div class="mb-3">
+        <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary w-100" do %>
+          <i class="fa-solid fa-user-gear"></i>
+          <span class="ms-1">Edit</span>
+        <% end %>
+      </div>
+
+      <h2 class="mt-3">New book</h2>
+
+      <% if @book.errors.any? %>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <% @book.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @book, local: true do |f| %>
+        <div class="mb-2">
+          <%= f.label :title %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+
+        <div class="mb-2">
+          <%= f.label :body %>
+          <%= f.text_area :body, class: "form-control" %>
+        </div>
+
+        <%= f.submit "Create Book", class: "btn btn-success" %>
+      <% end %>
+    </div>
+
+    <!-- 右：Books 一覧 -->
     <div class="col-md-8 offset-md-1">
       <h2>Books</h2>
 
@@ -16,20 +71,23 @@
         <tbody>
           <% @books.each do |book| %>
             <tr>
-              <td><%= image_tag "no_image.jpg", size: "40x40" %></td>
-              <td><%= link_to book.title, book_path(book) %></td>
-              <td><%= book.body %></td>
+              <!-- 投稿者画像：ユーザ詳細へ -->
+              <td>
+                <%= link_to user_path(book.user) do %>
+                  <%= image_tag "no_image.jpg", size: "80x80" %>
+                <% end %>
+              </td>
 
-              <% if book.user == current_user %>
-                <td><%= link_to "Edit", edit_book_path(book), class: "btn btn-sm btn-success" %></td>
-                <td><%= link_to "Destroy", book_path(book),
-                                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                                class: "btn btn-sm btn-danger" %></td>
-              <% end %>
+              <!-- タイトル：投稿詳細へ -->
+              <td><%= link_to book.title, book_path(book) %></td>
+
+              <!-- 本文 -->
+              <td><%= book.body %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
+
   </div>
 </div>

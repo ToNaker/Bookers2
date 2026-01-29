@@ -139,8 +139,10 @@ Devise.setup do |config|
   # confirming their account. For instance, if set to 2.days, the user will be
   # able to access the website for two days without confirming their account,
   # access will be blocked just in the third day.
+  #
   # You can also set it to nil, which will allow the user to access the website
   # without confirming their account.
+  #
   # Default is 0.days, meaning the user cannot access the website without
   # confirming their account.
   # config.allow_unconfirmed_access_for = 2.days
@@ -149,6 +151,7 @@ Devise.setup do |config|
   # token becomes invalid. For example, if set to 3.days, the user can confirm
   # their account within 3 days after the mail was sent, but on the fourth day
   # their account can't be confirmed with the token any more.
+  #
   # Default is nil, meaning there is no restriction on how long a user can take
   # before confirming their account.
   # config.confirm_within = 3.days
@@ -232,7 +235,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :encryptable
   # Allow you to use another hashing or encryption algorithm besides bcrypt (default).
-  # You can use :sha1, :sha512 or algorithms from others authentication tools as
+  # You can use :sha1, :sha512 or algorithms from others authentication tools such as
   # :clearance_sha1, :authlogic_sha512 (then you should set stretches above to 20
   # for default behavior) and :restful_authentication_sha1 (then you should set
   # stretches to 10, and copy REST_AUTH_SITE_KEY to pepper).
@@ -259,8 +262,8 @@ Devise.setup do |config|
   # :html should redirect to the sign in page when the user does not have
   # access, but formats like :xml or :json, should return 401.
   #
-  # If you have any extra navigational formats, like :iphone or :mobile, you
-  # should add them to the navigational formats lists.
+  # If you have any extra navigational formats, like :iphone or :mobile,
+  # you should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html, :turbo_stream]
@@ -306,7 +309,7 @@ Devise.setup do |config|
   config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
-
+  #
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true

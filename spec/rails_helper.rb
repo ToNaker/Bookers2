@@ -1,13 +1,14 @@
 # spec/rails_helper.rb
-
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
-
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require 'rspec/rails'
 require 'capybara/rspec'
+
+# support 読み込み
+Rails.root.glob('spec/support/**/*.rb').sort.each { |f| require f }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -16,28 +17,28 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  config.fixture_paths = [
-    Rails.root.join('spec/fixtures')
-  ]
+  config.fixture_paths = [Rails.root.join('spec/fixtures')]
+  config.use_transactional_fixtures = true
+  config.infer_spec_type_from_file_location!
+  config.filter_rails_from_backtrace!
 
   # FactoryBot
   config.include FactoryBot::Syntax::Methods
 
-  # Use transactional fixtures
-  config.use_transactional_fixtures = true
+  # controller spec 用（必要なら）
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
-  # === system spec 用（ここが超重要）===
+  # request spec 用（必要なら）
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # system spec 用（ログイン補助を使うなら）
+  config.include Warden::Test::Helpers, type: :system
+  config.after(:each, type: :system) { Warden.test_reset! }
+
+  # あなたの sign_in_as を system でも使いたいなら
+  config.include SignInHelper, type: :system
+
   config.before(:each, type: :system) do
     driven_by :rack_test
   end
-
-  # JS を使う system spec を書く場合はこちら
-  # config.before(:each, type: :system, js: true) do
-  #   driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
-  # end
-
-  # spec/system => type: :system になる
-  config.infer_spec_type_from_file_location!
-
-  config.filter_rails_from_backtrace!
 end

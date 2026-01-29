@@ -4,7 +4,10 @@
     <div class="col-md-3">
       <h2>User info</h2>
 
-      <%= image_tag "no_image.jpg", size: "100x100" %>
+      <!-- 画像リンク：ユーザ詳細へ（※空文字リンク対策＋Bookers2典型） -->
+      <%= link_to user_path(@user), aria: { label: "user profile" } do %>
+        <%= image_tag "no_image.jpg", size: "100x100" %>
+      <% end %>
 
       <table class="table mt-2">
         <tr>
@@ -17,37 +20,16 @@
         </tr>
       </table>
 
+      <!-- ユーザ編集ボタン：アイコンだけにしない -->
       <div class="mb-3">
-        <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary w-100" do %>
+        <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary w-100", aria: { label: "edit user" } do %>
           <i class="fa-solid fa-user-gear"></i>
+          <span class="ms-1">Edit</span>
         <% end %>
       </div>
 
-      <h2 class="mt-3">New book</h2>
-
-      <% if @book.errors.any? %>
-        <div class="alert alert-danger">
-          <ul>
-            <% @book.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <%= form_with model: @book, local: true do |f| %>
-        <div class="mb-2">
-          <%= f.label :title %>
-          <%= f.text_field :title, class: "form-control" %>
-        </div>
-
-        <div class="mb-2">
-          <%= f.label :body %>
-          <%= f.text_area :body, class: "form-control" %>
-        </div>
-
-        <%= f.submit "Create Book", class: "btn btn-success" %>
-      <% end %>
+      <!-- ↓ここから下は、あなたのアプリの構成に合わせて必要なら残す/削る -->
+      <!-- users/show に New book を置く設計ならここに続けてOK -->
     </div>
 
     <div class="col-md-8 offset-md-1">

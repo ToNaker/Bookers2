@@ -1,6 +1,5 @@
 # app/models/user.rb
 class User < ApplicationRecord
-
   # 追記：email カラムが無い代わりに email_address を email として扱う
   alias_attribute :email, :email_address
 
@@ -13,5 +12,4 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }, allow_blank: true
   validates :email_address, presence: true, uniqueness: true
-
 end

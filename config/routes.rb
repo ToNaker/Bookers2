@@ -7,6 +7,6 @@ Rails.application.routes.draw do
   sessions: "users/sessions"
 }
 
-  resources :users, only: [:index, :show, :edit, :update]
+  resources :users, only: [ :index, :show, :edit, :update ]
   resources :books
 end

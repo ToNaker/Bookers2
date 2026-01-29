@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :set_book, only: [ :show, :edit, :update, :destroy ]
+  before_action :ensure_correct_user, only: [ :edit, :update, :destroy ]
 
   def index
     @book  = Book.new

@@ -6,7 +6,7 @@
       <h2>User info</h2>
 
       <!-- 画像：ユーザ詳細へ -->
-      <%= link_to user_path(@user) do %>
+      <%= link_to user_path(@user), aria: { label: "user profile" } do %>
         <%= image_tag "no_image.jpg", size: "100x100" %>
       <% end %>
 
@@ -21,11 +21,12 @@
         </tr>
       </table>
 
-      <!-- ユーザ編集ボタン（空文字リンクにしない） -->
+      <!-- ユーザ編集ボタン（文字なし・アイコンのみ） -->
       <div class="mb-3">
-        <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary w-100" do %>
+        <%= link_to edit_user_path(@user),
+                    class: "btn btn-outline-secondary w-100",
+                    aria: { label: "Edit user" } do %>
           <i class="fa-solid fa-user-gear"></i>
-          <span class="ms-1">Edit</span>
         <% end %>
       </div>
 
@@ -73,7 +74,7 @@
             <tr>
               <!-- 投稿者画像：ユーザ詳細へ -->
               <td>
-                <%= link_to user_path(book.user) do %>
+                <%= link_to user_path(book.user), aria: { label: "user profile" } do %>
                   <%= image_tag "no_image.jpg", size: "80x80" %>
                 <% end %>
               </td>

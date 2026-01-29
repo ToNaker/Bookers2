@@ -1,6 +1,29 @@
-<!-- app/views/users/_userinfo.html.erb の画像部分だけ差し替え -->
-<% if user.profile_image.attached? %>
-  <%= image_tag user.profile_image, size: "100x100" %>
-<% else %>
-  <%= image_tag "no_image.jpg", size: "100x100" %>
+<!-- app/views/users/_userinfo.html.erb -->
+<h2>User info</h2>
+
+<%= link_to user_path(user), aria: { label: "user profile" } do %>
+  <% if user.profile_image.attached? %>
+    <%= image_tag user.profile_image, size: "100x100" %>
+  <% else %>
+    <%= image_tag "no_image.jpg", size: "100x100" %>
+  <% end %>
 <% end %>
+
+<table class="table mt-2">
+  <tr>
+    <th>name</th>
+    <td><%= user.name %></td>
+  </tr>
+  <tr>
+    <th>introduction</th>
+    <td><%= user.introduction %></td>
+  </tr>
+</table>
+
+<div class="mb-3">
+  <%= link_to edit_user_path(user),
+              class: "btn btn-outline-secondary w-100",
+              aria: { label: "Edit user" } do %>
+    <i class="fa-solid fa-user-gear"></i>
+  <% end %>
+</div>

@@ -11,22 +11,38 @@
 
       <table class="table">
         <tr>
-          <td>
-            <%= image_tag "no_image.jpg", size: "100x100" %><br>
-            <%= link_to @book_detail.user.name, user_path(@book_detail.user) %>
+          <!-- 投稿者：画像＋名前 -->
+          <td style="width: 140px;">
+            <%= link_to user_path(@book_detail.user), aria: { label: "user profile" } do %>
+              <% if @book_detail.user.profile_image.attached? %>
+                <%= image_tag @book_detail.user.profile_image, size: "100x100" %>
+              <% else %>
+                <%= image_tag "no_image.jpg", size: "100x100" %>
+              <% end %>
+            <% end %>
+
+            <div class="mt-1">
+              <%= link_to @book_detail.user.name, user_path(@book_detail.user) %>
+            </div>
           </td>
-          <td><%= link_to @book_detail.title, book_path(@book_detail) %></td>
+
+          <!-- title -->
+          <td style="width: 25%;">
+            <%= link_to @book_detail.title, book_path(@book_detail) %>
+          </td>
+
+          <!-- opinion(body) -->
           <td><%= @book_detail.body %></td>
-          <td>
+
+          <!-- 右端：Edit / Destroy（本人のみ） -->
+          <td class="text-end w-100" style="white-space: nowrap;">
             <% if @book_detail.user == current_user %>
               <%= link_to "Edit", edit_book_path(@book_detail), class: "btn btn-success btn-sm" %>
-            <% end %>
-          </td>
-          <td>
-            <% if @book_detail.user == current_user %>
-              <%= link_to "Destroy", book_path(@book_detail),
+
+              <%= link_to "Destroy",
+                          book_path(@book_detail),
                           data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-                          class: "btn btn-danger btn-sm" %>
+                          class: "btn btn-danger btn-sm ms-2" %>
             <% end %>
           </td>
         </tr>

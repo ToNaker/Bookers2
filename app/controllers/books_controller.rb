@@ -6,9 +6,8 @@ class BooksController < ApplicationController
   def index
     @book  = Book.new
     @books = Book.all
-    @user  = current_user   # ←追記（これが無いと @user が nil）
+    @user  = current_user
   end
-
 
   def create
     @book = current_user.books.new(book_params)
@@ -23,14 +22,15 @@ class BooksController < ApplicationController
   def show
     @book_detail = @book        # 詳細表示用
     @book = Book.new            # 左フォーム用（New book）
+
+    # ===== 追記：コメント投稿フォーム用 =====
+    @book_comment = BookComment.new
+    # ================================
   end
 
-
-
-def edit
-  @book = Book.find(params[:id])
-end
-
+  def edit
+    @book = Book.find(params[:id])
+  end
 
   def update
     if @book.update(book_params)

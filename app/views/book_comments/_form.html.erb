@@ -1,0 +1,18 @@
+<%# app/views/book_comments/_form.html.erb %>
+
+<% if book_comment.errors.any? %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% book_comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: [book, book_comment], local: true do |f| %>
+  <div class="mb-2">
+    <%= f.text_area :comment, rows: 3, class: "form-control", placeholder: "コメントを入力…" %>
+  </div>
+  <%= f.submit "送信", class: "btn btn-outline-dark btn-sm" %>
+<% end %>

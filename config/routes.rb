@@ -3,10 +3,14 @@ Rails.application.routes.draw do
   get "home/about" => "homes#about"
 
   devise_for :users, controllers: {
-  registrations: "users/registrations",
-  sessions: "users/sessions"
-}
+    registrations: "users/registrations",
+    sessions: "users/sessions"
+  }
 
   resources :users, only: [ :index, :show, :edit, :update ]
-  resources :books
+
+  resources :books do
+    resource :favorite, only: [ :create, :destroy ]
+    resources :book_comments, only: [ :create, :destroy ]
+  end
 end

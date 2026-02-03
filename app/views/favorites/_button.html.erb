@@ -1,0 +1,21 @@
+<%# app/views/favorites/_button.html.erb %>
+
+<div class="d-flex align-items-center gap-3">
+  <% if book.favorited_by?(current_user) %>
+    <%= link_to book_favorite_path(book),
+                data: { turbo_method: :delete },
+                class: "text-danger text-decoration-none" do %>
+      <i class="fa-solid fa-heart"></i><span class="ms-1"><%= book.favorites.count %></span>
+    <% end %>
+  <% else %>
+    <%= link_to book_favorite_path(book),
+                data: { turbo_method: :post },
+                class: "text-primary text-decoration-none" do %>
+      <i class="fa-regular fa-heart"></i><span class="ms-1"><%= book.favorites.count %></span>
+    <% end %>
+  <% end %>
+
+  <span class="text-muted">
+    コメント数: <%= book.book_comments.count %>
+  </span>
+</div>

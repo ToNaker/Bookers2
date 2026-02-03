@@ -29,9 +29,10 @@ class UsersController < ApplicationController
   private
 
   def ensure_correct_user
-    user = User.find(params[:id])
-    redirect_to user_path(current_user), alert: "You are not authorized to do that." unless user == current_user
+    @user = User.find(params[:id])
+    redirect_to user_path(current_user), alert: "You are not authorized to do that." unless @user == current_user
   end
+
 
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)

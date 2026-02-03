@@ -1,17 +1,23 @@
 <!-- app/views/books/show.html.erb -->
-<div class="container">
+<div>
   <div class="row">
+    <!-- 左：User info + New book -->
     <div class="col-md-3">
       <%= render "users/userinfo", user: @book_detail.user %>
       <%= render "books/newbook", book: @book %>
     </div>
 
+    <!-- 右：Book detail -->
     <div class="col-md-8 offset-md-1">
       <h2>Book detail</h2>
 
-      <table class="table">
+      <!-- ★ここを追加：見出し直下に横線（参考画像の位置） -->
+      <hr class="mt-0 mb-3">
+
+      <!-- ★Book detailの内容（青枠部分）をこの横線の下に置く -->
+      <table class="table table-borderless align-middle mb-3">
         <tr>
-          <!-- 投稿者：画像＋名前 -->
+          <!-- 投稿者（画像＋名前） -->
           <td style="width: 140px;">
             <%= link_to user_path(@book_detail.user), aria: { label: "user profile" } do %>
               <% if @book_detail.user.profile_image.attached? %>
@@ -31,22 +37,29 @@
             <%= link_to @book_detail.title, book_path(@book_detail) %>
           </td>
 
-          <!-- opinion(body) -->
-          <td><%= @book_detail.body %></td>
+          <!-- opinion -->
+          <td>
+            <%= @book_detail.body %>
+          </td>
 
-          <!-- 右端：Edit / Destroy（本人のみ） -->
-          <td class="text-end w-100" style="white-space: nowrap;">
-            <% if @book_detail.user == current_user %>
-              <%= link_to "Edit", edit_book_path(@book_detail), class: "btn btn-success btn-sm" %>
-
-              <%= link_to "Destroy",
-                          book_path(@book_detail),
-                          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-                          class: "btn btn-danger btn-sm ms-2" %>
-            <% end %>
+          <!-- ♡（ここにコメント数も置きたいなら後で足せる） -->
+          <td class="text-nowrap">
+            <span class="me-6">
+              <%= render "favorites/button", book: @book_detail %>
+            </span>
           </td>
         </tr>
       </table>
+
+      <!-- コメント一覧 -->
+      <%= render "book_comments/index", book: @book_detail %>
+
+      <!-- コメント投稿フォーム -->
+      <div class="mt-3">
+        <%= render "book_comments/form",
+                   book: @book_detail,
+                   book_comment: @book_comment %>
+      </div>
     </div>
   </div>
 </div>

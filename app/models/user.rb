@@ -42,6 +42,23 @@ class User < ApplicationRecord
   end
   # ================================
 
+  # ===== search（追記）=====
+  def self.search_for(word, method)
+    word = word.to_s
+
+    case method
+    when "perfect"
+      where(name: word)
+    when "forward"
+      where("name LIKE ?", "#{sanitize_sql_like(word)}%")
+    when "backward"
+      where("name LIKE ?", "%#{sanitize_sql_like(word)}")
+    else # "partial"
+      where("name LIKE ?", "%#{sanitize_sql_like(word)}%")
+    end
+  end
+  # =======================
+
   validates :name, presence: true, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }, allow_blank: true
   validates :email_address, presence: true, uniqueness: true

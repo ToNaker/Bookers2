@@ -1,0 +1,30 @@
+<%# app/views/layouts/_search.html.erb %>
+<% if user_signed_in? %>
+  <div class="header-search border-bottom">
+    <div class="container">
+      <%= form_with url: search_path, method: :get, local: true,
+            class: "header-search__form d-flex flex-wrap justify-content-center align-items-center" do |f| %>
+
+        <%= f.text_field :word,
+              value: params[:word],
+              placeholder: "Search",
+              class: "form-control form-control-sm header-search__word" %>
+
+        <%= f.select :model,
+              options_for_select([["User", "user"], ["Book", "book"]], params[:model]),
+              {},
+              class: "form-select form-select-sm header-search__select" %>
+
+        <%= f.select :method,
+              options_for_select(
+                [["完全一致", "perfect"], ["前方一致", "forward"], ["後方一致", "backward"], ["部分一致", "partial"]],
+                params[:method]
+              ),
+              {},
+              class: "form-select form-select-sm header-search__select" %>
+
+        <%= f.submit "検索", class: "btn btn-outline-secondary btn-sm header-search__btn" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

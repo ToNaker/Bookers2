@@ -11,6 +11,24 @@ class Book < ApplicationRecord
   end
   # ================================
 
+  # ===== search（追記）=====
+  def self.search_for(word, method)
+    word = word.to_s
+    escaped = sanitize_sql_like(word)
+
+    case method
+    when "perfect"
+      where(title: word).or(where(body: word))
+    when "forward"
+      where("title LIKE ? OR body LIKE ?", "#{escaped}%", "#{escaped}%")
+    when "backward"
+      where("title LIKE ? OR body LIKE ?", "%#{escaped}", "%#{escaped}")
+    else # "partial"
+      where("title LIKE ? OR body LIKE ?", "%#{escaped}%", "%#{escaped}%")
+    end
+  end
+  # =======================
+
   validates :title, presence: true
   validates :body,  presence: true, length: { maximum: 200 }
 end

@@ -5,15 +5,15 @@
     </div>
 
     <div class="col-md-8 offset-md-1">
-      <h2>Users</h2>
+      <h2><%= @user.name %> の Followings</h2>
 
       <table class="table">
         <thead>
           <tr>
             <th>image</th>
             <th>name</th>
-            <th></th>
-            <th></th>
+            <th>フォロー数</th>
+            <th>フォロワー数</th>
             <th></th>
             <th></th>
           </tr>
@@ -23,15 +23,16 @@
           <% @users.each do |user| %>
             <tr>
               <td><%= image_tag "no_image.jpg", size: "40x40" %></td>
-
               <td><%= user.name %></td>
 
-              <td style="white-space: nowrap;">
-                フォロー数: <%= user.followings.count %>
+              <td>
+                フォロー数:
+                <%= link_to user.followings.count, followings_user_path(user) %>
               </td>
 
-              <td style="white-space: nowrap;">
-                フォロワー数: <%= user.followers.count %>
+              <td>
+                フォロワー数:
+                <%= link_to user.followers.count, followers_user_path(user) %>
               </td>
 
               <td class="text-nowrap">

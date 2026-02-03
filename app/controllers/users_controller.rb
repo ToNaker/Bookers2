@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_correct_user, only: [ :edit, :update ]
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
     @users = User.all
@@ -12,6 +12,20 @@ class UsersController < ApplicationController
     @book  = Book.new
     @books = @user.books
   end
+
+  # ===== followings / followers（追記）=====
+  def followings
+    @user  = User.find(params[:id])
+    @users = @user.followings
+    @book  = Book.new
+  end
+
+  def followers
+    @user  = User.find(params[:id])
+    @users = @user.followers
+    @book  = Book.new
+  end
+  # =======================================
 
   def edit
     @user = User.find(params[:id])
@@ -32,7 +46,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     redirect_to user_path(current_user), alert: "You are not authorized to do that." unless @user == current_user
   end
-
 
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)

@@ -7,9 +7,9 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
-  resources :users, only: [:index, :show, :edit, :update] do
+  resources :users, only: [ :index, :show, :edit, :update ] do
     # フォロー/解除：/users/:user_id/relationship
-    resource :relationship, only: [:create, :destroy]
+    resource :relationship, only: [ :create, :destroy ]
 
     # フォロー一覧/フォロワー一覧：/users/:id/followings, /users/:id/followers
     member do
@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   end
 
   resources :books do
-    resource :favorite, only: [:create, :destroy]
-    resources :book_comments, only: [:create, :destroy]
+    resource :favorite, only: [ :create, :destroy ]
+    resources :book_comments, only: [ :create, :destroy ]
   end
 
   get "search" => "searches#search"

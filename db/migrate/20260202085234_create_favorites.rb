@@ -8,6 +8,6 @@ class CreateFavorites < ActiveRecord::Migration[6.1]
     end
 
     # 同じユーザーが同じ本に2回いいねできないようにする
-    add_index :favorites, [:user_id, :book_id], unique: true
+    add_index :favorites, [ :user_id, :book_id ], unique: true
   end
 end

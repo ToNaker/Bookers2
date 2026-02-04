@@ -3,29 +3,41 @@ class BookCommentsController < ApplicationController
   before_action :set_book
 
   def create
-    comment = current_user.book_comments.new(book_comment_params)
-    comment.book_id = @book.id
+    @book_comment = current_user.book_comments.new(book_comment_params)
+    @book_comment.book_id = @book.id
 
-    if comment.save
-      redirect_back fallback_location: book_path(@book)
+    if @book_comment.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: book_path(@book) }
+      end
     else
-      # show でエラー表示したいので、必要な変数を揃えて render
-      @book_detail = @book
-      @book = Book.new
-      @book_comment = comment
-      render "books/show", status: :unprocessable_entity
+      # Turbo: フォームだけエラー付きで差し替え
+      respond_to do |format|
+        format.turbo_stream { render :create, status: :unprocessable_entity }
+        format.html do
+          # show でエラー表示したいので、必要な変数を揃えて render
+          @book_detail = @book
+          @book = Book.new
+          render "books/show", status: :unprocessable_entity
+        end
+      end
     end
   end
 
   def destroy
-    comment = BookComment.find(params[:id])
+    @book_comment = BookComment.find(params[:id])
 
-    unless comment.user == current_user
+    unless @book_comment.user == current_user
       return redirect_back fallback_location: book_path(@book), alert: "You are not authorized to do that."
     end
 
-    comment.destroy
-    redirect_back fallback_location: book_path(@book)
+    @book_comment.destroy
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: book_path(@book) }
+    end
   end
 
   private

@@ -42,23 +42,29 @@
             <%= @book_detail.body %>
           </td>
 
-          <!-- ♡（ここにコメント数も置きたいなら後で足せる） -->
+          <!-- ♡ + コメント数（Turboで差し替える枠） -->
           <td class="text-nowrap">
-            <span class="me-6">
-              <%= render "favorites/button", book: @book_detail %>
-            </span>
+            <%= turbo_frame_tag dom_id(@book_detail, :favorite) do %>
+              <span class="me-6">
+                <%= render "favorites/button", book: @book_detail %>
+              </span>
+            <% end %>
           </td>
         </tr>
       </table>
 
-      <!-- コメント一覧 -->
-      <%= render "book_comments/index", book: @book_detail %>
+      <!-- コメント一覧（Turboで差し替える枠） -->
+      <%= turbo_frame_tag dom_id(@book_detail, :comments) do %>
+        <%= render "book_comments/index", book: @book_detail %>
+      <% end %>
 
-      <!-- コメント投稿フォーム -->
+      <!-- コメント投稿フォーム（Turboで差し替える枠） -->
       <div class="mt-3">
-        <%= render "book_comments/form",
-                   book: @book_detail,
-                   book_comment: @book_comment %>
+        <%= turbo_frame_tag dom_id(@book_detail, :comment_form) do %>
+          <%= render "book_comments/form",
+                     book: @book_detail,
+                     book_comment: (@book_comment || BookComment.new) %>
+        <% end %>
       </div>
     </div>
   </div>
